@@ -1,4 +1,4 @@
-# EXPERIMENT--03-INTERFACING-A-SOIL-MOISTURE-SENSOR-AND-CONFIGURING-THE-OUTPUT-THROUGH-USART- USING IOT DEVELOPMENT BOARD 
+# EXPERIMENT--03-INTERFACING-A-IOT-DEVELOPMENT-BOARD-AND-CONFIGURE-USART-FOR-TRANSFERING-STRINGS
 ## Aim: To Interface a soil moisture sensor , configure  the ADC and transfer the data through serial port usign USART  
 ## Components required: STM32 CUBE IDE, ARM IOT development board,  STM programmer tool, Serial port utility tool 
 ## Theory 
@@ -75,41 +75,39 @@ Developed by : Shakthi kumar S
 Register number : 212222110043
 
 #include "main.h"
-#include "Soil Moisture Sensor.h"
 #include "stdio.h"
-UART_HandleTypeDef huart2;
-void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
-void ADC_Init(void);
-void GPIO_Init(void);
 #if defined (__ICCARM__) || defined (__ARMCC_VERSION)
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #elif defined(__GNUC__)
+
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 #endif /* __ICCARM__ || __ARMCC_VERSION */
 
-PUTCHAR_PROTOTYPE
-{
-  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
-
-  return ch;
-}
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void);
 
 int main(void)
 {
- 
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-  ADC_Init();
-  GPIO_Init();
+
   while (1)
   {
-	  soil_moisture();
+	  printf("SHAKTHI KUMAR\n");
+	  HAL_Delay(500);
+
   }
  
+}
+PUTCHAR_PROTOTYPE
+{
+
+  HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);
+
+  return ch;
 }
 
 void SystemClock_Config(void)
@@ -117,8 +115,9 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
+
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
- 
+
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
   RCC_OscInitStruct.MSIState = RCC_MSI_ON;
   RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
@@ -128,7 +127,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
- 
+  
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK3|RCC_CLOCKTYPE_HCLK
                               |RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1
                               |RCC_CLOCKTYPE_PCLK2;
@@ -147,7 +146,7 @@ void SystemClock_Config(void)
 static void MX_USART2_UART_Init(void)
 {
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -173,8 +172,10 @@ static void MX_USART2_UART_Init(void)
   {
     Error_Handler();
   }
+ 
 
 }
+
 
 static void MX_GPIO_Init(void)
 {
@@ -185,24 +186,27 @@ static void MX_GPIO_Init(void)
 
 void Error_Handler(void)
 {
+
   __disable_irq();
   while (1)
   {
   }
+
 }
 
 #ifdef  USE_FULL_ASSERT
-
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  
+
 }
-#endif
+#endif 
+
+
 ```
 
 
 ## Output screen shots of Serial port utility   :
-![](IOT_EX03-1.png)
+![](IOT_03...png)
  
  
 ## Result :
